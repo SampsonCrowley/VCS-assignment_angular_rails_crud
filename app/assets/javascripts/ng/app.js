@@ -1,6 +1,7 @@
+var _ = window.Lodash
 var pins = angular.module('pins', ['ui.router', 'Devise', 'restangular'])
 
-pins.constant('_', window._)
+pins.constant('_', _)
 
 pins.config(
   ["$httpProvider",
@@ -52,10 +53,7 @@ pins.config(['$stateProvider', '$urlRouterProvider',
         resolve: {
           'pins' : ['pinService', (pinService) => {
             console.log('resolving')
-            return pinService.get().then((pins) => { 
-              console.log('pins', pins);
-              return pins
-            });
+            return pinService.get();
           }]
         },
         views: {
@@ -66,4 +64,3 @@ pins.config(['$stateProvider', '$urlRouterProvider',
         }
       })
   }]);
-  

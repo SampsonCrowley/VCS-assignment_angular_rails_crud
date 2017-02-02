@@ -12,15 +12,16 @@ puts "creating users"
 NUM_USERS = 10
 PINS_PER_USER = 3
 
-NUM_USERS.times do
-  user = User.new(
-    username: Faker::Beer.name.split(" ").join("").downcase,
-    email: Faker::Internet.email,
-    password: "password",
-    password_confirmation: "password"
-  )
-
-  user.save if user.valid?
+while(User.count < NUM_USERS)
+  begin
+    user = User.create(
+      username: Faker::Beer.name.split(" ").join("").downcase,
+      email: Faker::Internet.email,
+      password: "password",
+      password_confirmation: "password"
+    )
+  rescue
+  end
 end
 
 users = User.all
@@ -29,7 +30,7 @@ users.each do |user|
   PINS_PER_USER.times do
     user.pins.create(
       purchase: (rand(10) < 5),
-      item_name: Faker::Hipster.words(rand(2)+1),
+      item_name: Faker::Hipster.words(rand(2)+1).join(" "),
       description: Faker::Hacker.say_something_smart
     )
   end

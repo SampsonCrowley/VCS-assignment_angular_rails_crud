@@ -1,8 +1,8 @@
 pins.factory('pinService', [
   'Restangular', 'Auth', '_',
-  (restangular, auth, _) => {
+  function(restangular, auth, _) {
     const _rest = restangular.all('pins');
-    var _pins;
+    var _pins = {};
 
     var _newPin = (pin) => {
       return {
@@ -14,21 +14,26 @@ pins.factory('pinService', [
       }
     }
 
-    var _extend = (pins) => {
-      pins.create = (pin) => {
+    var _extend = function _extend() {
+      _pins.create = function create(pin) {
         return _rest.post(_newPin(pin))
-        .then(pin => _pins.unshift(pin));
+        .then(pin => _pins[pin.id] = pin);
       }
-      console.log(pins)
-      return pins;
+      return _pins;
     }
 
-    restangular.extendCollection('pins', _extend)
+    var _denormalize = function _denormalize(collection){
+      angular.copy({}, _pins);
+      for(var i = 0; i < collection.length; i++){
+        _pins[collection[i].id] = collection[i];
+      }
+      return _extend();
+    }
 
-    var get = () => {
-      if(!_pins){
-        console.log('getting list')
-        return _rest.getList().then(pins => _pins = pins);
+    var get = function get(){
+      if(_.isEmpty(_pins)){
+        return _rest.getList()
+          .then(pins => _denormalize(pins));
       }
       return new Promise.resolve(_pins);
     }
