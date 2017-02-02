@@ -70,20 +70,7 @@ shared_examples_for "invalid_update" do |model, params|
 end
 
 shared_examples_for "unauthorized_update" do |model, params|
-  it "should be rejected" do
-    before = checked
-    process :update, params: { id: checked.id, model => params }
-  end
-
-  it "should set danger flash messages" do
-    process :update, params: {id: checked.id, model => params }
-
-    expect(flash[:danger]).to_not be_nil
-  end
-
-  it "should redirect" do
-    process :update, params: { id: checked.id, model => params }
-
-    assert_response :redirect
+  it "should throw an error" do
+    expect {process :update, params: { id: checked.id, model => params }}.to raise_error(NoMethodError)
   end
 end
