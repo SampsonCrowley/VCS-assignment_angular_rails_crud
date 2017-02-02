@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purchase: false
+  item_name: MyString
+  description: MyText
+  user: one
+
+two:
+  purchase: false
+  item_name: MyString
+  description: MyText
+  user: two
