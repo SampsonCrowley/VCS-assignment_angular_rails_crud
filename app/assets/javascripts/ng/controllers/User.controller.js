@@ -7,4 +7,9 @@ pins.controller('UserCtrl', ['$scope', 'Auth',
       .catch(function() {
         $scope.currentUser = null;
       })
+
+    $scope.login = function(loginForm, loginData) {
+
+      Auth.login(loginData).then(function(r) { console.log(r)})
+    }
   }]);

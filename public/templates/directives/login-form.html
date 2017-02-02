@@ -1,23 +1,23 @@
 <h2>Log in</h2>
 
-<form action="">
+<form name="loginForm" ng-submit="login(loginForm, loginData)">
   <div class="field">
     <label for="email">
       Email:
     </label>
-    <input type="email" name="email" autofocus="false">
+    <input type="email" name="email" autofocus="false" ng-model="loginData.email">
   </div>
 
   <div class="field">
     <label for="password">
       Password:
     </label>
-    <input type="password" name="password" autocomplete="off">
+    <input type="password" name="password" autocomplete="off" ng-model="loginData.password">
   </div>
 
   <div class="field">
     <label for="remember_me">
-      <input type="checkbox" name="remember_me" value="true">
+      <input type="checkbox" name="remember_me" ng-value="{{true}}" ng-model="loginData.remember_me">
     </label>
   </div>
 

@@ -25,7 +25,7 @@ pins.config(['RestangularProvider', function(RestangularProvider) {
 pins.config(['AuthProvider', function(AuthProvider) {
   AuthProvider.loginPath('/users/sign_in.json');
   AuthProvider.loginMethod('POST');
-  AuthProvider.resourceName('users');
+  AuthProvider.resourceName('user');
 }]);
 
 pins.config(['$stateProvider', '$urlRouterProvider',
@@ -43,6 +43,10 @@ pins.config(['$stateProvider', '$urlRouterProvider',
           },
           'user' : {
             template: '<ui-view/>',
+          },
+          'nav' : {
+            templateUrl: 'templates/nav.html',
+            controller: 'NavCtrl'
           }
         }
       })
@@ -51,7 +55,6 @@ pins.config(['$stateProvider', '$urlRouterProvider',
         abstract: true,
         url: 'pins',
         template: '<ui-view/>'
-        }
       })
       .state('pins.new', {
         url: '',
