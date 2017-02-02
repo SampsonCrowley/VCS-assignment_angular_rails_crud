@@ -49,9 +49,19 @@ pins.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('pins.index', {
         url: '',
+        resolve: {
+          'pins' : ['pinService', (pinService) => {
+            console.log('resolving')
+            return pinService.get().then((pins) => { 
+              console.log('pins', pins);
+              return pins
+            });
+          }]
+        },
         views: {
           '' : {
-            templateUrl: 'templates/pins/index.html'
+            templateUrl: 'templates/pins/index.html',
+            controller: 'PinsIndexCtrl'
           }
         }
       })
