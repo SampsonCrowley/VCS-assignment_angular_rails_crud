@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html <%= content_for :angular %>>
   <head>
     <title>AngularRailsCrud</title>
     <%= csrf_meta_tags %>
@@ -9,6 +9,11 @@
   </head>
 
   <body>
+    <ul>
+      <% if user_signed_in? %>
+        <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+      <% end %>
+    </ul>
     <%= yield %>
   </body>
 </html>
