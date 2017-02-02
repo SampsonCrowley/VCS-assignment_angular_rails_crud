@@ -4,6 +4,7 @@ RSpec.describe PinsController, type: :controller do
 
   before do
     FactoryGirl.create_list(:pin, 10)
+    sign_in create(:user)
   end
   describe 'GET #index' do
     it 'returns an array of pins' do
@@ -25,4 +26,14 @@ RSpec.describe PinsController, type: :controller do
     end
   end
 
+  describe 'POST #create' do 
+    it_has_behavior 'valid_create', :pin, 1
+    it_has_behavior 'invalid_create', :pin, { pin: { item_name: '' } }
+  end
+
+  describe 'PATCH #update' do 
+    it_has_behavior 'valid_update', :pin, { pin: { item_name: 'new_name' } } do 
+      let(:checked) { create(:pin) }
+    end 
+  end
 end

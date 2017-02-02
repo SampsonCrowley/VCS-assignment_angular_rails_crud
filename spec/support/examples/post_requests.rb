@@ -1,18 +1,18 @@
-shared_examples_for "valid_create" do |model, redirect, amount|
+shared_examples_for "valid_create" do |model, amount|
   it "should be successful" do
     expect{process :create, params: {model => attributes_for(model)} }.to change(model.to_s.classify.constantize, :count).by(amount)
   end
 
-  it "should set success flash messages" do
+  it "return the new model as json" do
     process :create, params: {model => attributes_for(model)}
 
-    expect(flash[:success]).to_not be_nil
+    expect(JSON.parse(response.body)).to eq(JSON.parse(model.to_s.classify.constantize.last.to_json))
   end
 
-  it "should redirect to #{redirect}" do
+  it "should return a success status" do
     process :create, params: {model => attributes_for(model)}
 
-    expect(response).to redirect_to(send(redirect))
+    assert_response :success
   end
 end
 
@@ -21,20 +21,14 @@ shared_examples_for "invalid_create" do |model, params|
     expect{process :create, params: params}.to_not change(model.to_s.classify.constantize, :count)
   end
 
-  it "should set danger flash messages" do
+  it "should return an unprocessable entity status" do
     process :create, params: params
 
-    expect(flash[:danger]).to_not be_nil
-  end
-
-  it "should not redirect" do
-    process :create, params: params
-
-    assert_response :success
+    assert_response :unprocessable_entity
   end
 end
 
-shared_examples_for "valid_update" do |model, params, redirect|
+shared_examples_for "valid_update" do |model, params|
 
   it "should be successful" do
     process :update, params: { id: checked.id, model => params }
@@ -45,16 +39,17 @@ shared_examples_for "valid_update" do |model, params, redirect|
     end
   end
 
-  it "should set success flash messages" do
-    process :update, params: {id: checked.id, model => params}
-
-    expect(flash[:success]).to_not be_nil
-  end
-
-  it "should redirect to #{redirect}" do
+  it "should return a success status" do
+    puts { id: checked.id, model => params }
     process :update, params: { id: checked.id, model => params }
 
-    expect(response).to redirect_to(send(redirect, checked.id))
+    assert_response :success
+  end
+
+  it "should return the updated object" do 
+    process :update, params: { id: checked.id, model => params }
+    checked.reload
+    expect(JSON.parse(response.body)).to eq(JSON.parse(checked.to_json))
   end
 end
 
@@ -64,16 +59,10 @@ shared_examples_for "invalid_update" do |model, params|
     process :update, params: { id: checked.id, model => params }
   end
 
-  it "should set danger flash messages" do
-    process :update, params: {id: checked.id, model => params }
-
-    expect(flash[:danger]).to_not be_nil
-  end
-
-  it "should not redirect" do
+  it "should return a unprocessable entity status" do
     process :update, params: { id: checked.id, model => params }
 
-    assert_response :success
+    assert_response :unprocessable_entity
   end
 end
 
