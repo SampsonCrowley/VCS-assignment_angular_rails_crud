@@ -23,7 +23,7 @@ pins.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 
 pins.config(['AuthProvider', function(AuthProvider) {
-  AuthProvider.loginPath('/api/v1/user/sign_in.json');
+  AuthProvider.loginPath('/users/sign_in.json');
   AuthProvider.loginMethod('POST');
   AuthProvider.resourceName('users');
 }]);
@@ -45,10 +45,14 @@ pins.config(['$stateProvider', '$urlRouterProvider',
         views: {
           'pins' : {
             template: "<ui-view></ui-view>"
+          },
+          'user' : {
+            templateUrl: '/templates/user.html',
+            controller: 'UserCtrl'
           }
         }
       })
-      .state('pins.index', {
+      .state('pinsIndex', {
         url: '',
         resolve: {
           'pins' : ['pinService', (pinService) => {
@@ -62,5 +66,13 @@ pins.config(['$stateProvider', '$urlRouterProvider',
             controller: 'PinsIndexCtrl'
           }
         }
+      })
+      .state('user', {
+        parent: 'main',
+
+      })
+      .state('show', {
+        parent: 'pin'
+        // show template
       })
   }]);

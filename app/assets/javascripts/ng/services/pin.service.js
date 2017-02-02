@@ -13,12 +13,10 @@ pins.factory('pinService', [
         }
       }
     }
+    
 
     var _extend = function _extend() {
-      _pins.create = function create(pin) {
-        return _rest.post(_newPin(pin))
-        .then(pin => _pins[pin.id] = pin);
-      }
+      _pins.create = create;
       return _pins;
     }
 
@@ -38,8 +36,14 @@ pins.factory('pinService', [
       return new Promise.resolve(_pins);
     }
 
+    var create = function create(pin) {
+      return _rest.post(_newPin(pin))
+      .then(pin => _pins[pin.id] = pin);
+    }
+
     return {
-      get: get
+      get: get,
+      create: create
     }
 
   }

@@ -1,9 +1,9 @@
 class PinsController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :find_pin, only: [:update, :destroy]
   def index
     pins = Pin.all
-    render json: pins, status: 200
+    render json: pins.to_json(include: :user), status: 200
   end
 
   def show

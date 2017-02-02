@@ -1,8 +1,8 @@
-pins.directive('newPin', [
-  function(){
+pins.directive('newPin', [ 'pinService',
+  function(pinService){
     var _setup = function(s){
       s.createPin = function createPin(valid, data, form){
-        s.pins.create(data).then((pin) => {
+        pinService.create(data).then((pin) => {
           angular.copy({}, data);
           form.$setPristine()
           form.$setUntouched()
