@@ -30,49 +30,42 @@ pins.config(['AuthProvider', function(AuthProvider) {
 
 pins.config(['$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/pins');
+    $urlRouterProvider.otherwise('/user');
 
     $stateProvider
       .state('main', {
+        url: "/",
         abstract: true,
-        templateUrl: '/templates/main/index.html',
-        url: "/"
+        views: {
+          'pins' : {
+            templateUrl: 'templates/pins/index.html',
+            controller: 'PinsIndexCtrl'
+          },
+          'user' : {
+            template: '<ui-view/>',
+          }
+        }
       })
       .state('pins', {
         parent: 'main',
         abstract: true,
         url: 'pins',
-        views: {
-          'pins' : {
-            template: "<ui-view></ui-view>"
-          },
-          'user' : {
-            templateUrl: '/templates/user.html',
-            controller: 'UserCtrl'
-          }
+        template: '<ui-view/>'
         }
       })
-      .state('pinsIndex', {
+      .state('pins.new', {
         url: '',
-        resolve: {
-          'pins' : ['pinService', (pinService) => {
-            console.log('resolving')
-            return pinService.get();
-          }]
-        },
-        views: {
-          '' : {
-            templateUrl: 'templates/pins/index.html',
-            controller: 'PinsIndexCtrl'
-          }
-        }
+        template: 'test'
+      })
+      .state('pins.show', {
+        url: '/:id',
+        template: 'show'
       })
       .state('user', {
         parent: 'main',
+        url: 'user',
+        templateUrl: '/templates/user.html',
+        controller: 'UserCtrl'
+      })
 
-      })
-      .state('show', {
-        parent: 'pin'
-        // show template
-      })
   }]);

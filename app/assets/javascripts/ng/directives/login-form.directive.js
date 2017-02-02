@@ -3,6 +3,6 @@ pins.directive('loginForm', [
     return {
       restrict: 'E',
       scope: true,
-      templateUrl: 'templates/user/log-in.html'
+      templateUrl: 'templates/directives/login-form.html'
     }
   }]);

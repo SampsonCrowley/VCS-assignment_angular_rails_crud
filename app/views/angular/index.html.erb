@@ -1,4 +1,11 @@
 <% content_for :angular do %>
   ng-app="pins"
 <% end %>
-<ui-view></ui-view>
+<div class="row">
+  <div class="col-sm-4">
+    <div ui-view="user"></div>
+  </div>
+  <div class="col-sm-8">
+    <div ui-view="pins"></div>
+  </div>
+</div>

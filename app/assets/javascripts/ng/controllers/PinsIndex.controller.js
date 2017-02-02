@@ -1,4 +1,5 @@
-pins.controller('PinsIndexCtrl', ['$scope', 'pins',
-  function($scope, pins) {
-    $scope.pins = pins;
+pins.controller('PinsIndexCtrl', ['$scope', 'pinService',
+  function($scope, pinService) {
+    pinService.get().then(pins => $scope.pins = pins)
+
   }]);
