@@ -10,6 +10,10 @@ pins.config(
       .attr('content');
     $httpProvider
       .defaults
+      .withCredentials = true;
+      
+    $httpProvider
+      .defaults
       .headers
       .common['X-CSRF-Token'] = token;
   }]);

@@ -1,7 +1,13 @@
-pins.controller('UserCtrl', ['$scope', '$state', 'Auth',
-  function($scope, $state, Auth) {
+pins.controller('UserCtrl', ['$scope', '$state', 'Auth', '$timeout',
+  function($scope, $state, Auth, $timeout) {
+    var test = function(){
+      Auth.currentUser().then((user) => {
+        
+        $state.go('pins.new')
 
-
+      }).catch(err => console.log(err))
+    }
+    test()
 
     $scope.$on('devise:login', function(){
       $state.go('pins.new')
