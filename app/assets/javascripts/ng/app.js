@@ -23,7 +23,7 @@ pins.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 
 pins.config(['AuthProvider', function(AuthProvider) {
-  AuthProvider.loginPath('/users/sign_in.json');
+  // AuthProvider.loginPath('/users/sign_in.json');
   AuthProvider.loginMethod('POST');
   AuthProvider.resourceName('user');
 }]);
@@ -58,7 +58,8 @@ pins.config(['$stateProvider', '$urlRouterProvider',
       })
       .state('pins.new', {
         url: '',
-        template: 'test'
+        template: '<new-pin></new-pin>',
+        controller: 'NewPinCtrl'
       })
       .state('pins.show', {
         url: '/:id',
